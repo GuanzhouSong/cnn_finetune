@@ -20,9 +20,9 @@ class LRN(Layer):
         self.beta = beta
         self.n = n
         super(LRN, self).__init__(**kwargs)
-    
+
     def call(self, x, mask=None):
-        b, ch, r, c = x.shape
+        b, ch, r, c = x.get_shape()
         half_n = self.n // 2 # half the local region
         input_sqr = T.sqr(x) # square the input
         extra_channels = T.alloc(0., b, ch + 2*half_n, r, c) # make an empty tensor with zero pads along channel dimension
@@ -51,10 +51,10 @@ class PoolHelper(Layer):
 
     def __init__(self, **kwargs):
         super(PoolHelper, self).__init__(**kwargs)
-    
+
     def call(self, x, mask=None):
         return x[:,:,1:,1:]
-    
+
     def get_config(self):
         config = {}
         base_config = super(PoolHelper, self).get_config()
