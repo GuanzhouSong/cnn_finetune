@@ -22,7 +22,7 @@ class LRN(Layer):
         super(LRN, self).__init__(**kwargs)
 
     def call(self, x, mask=None):
-        b, ch, r, c = x.get_shape()
+        b, ch, r, c = x.shape
         half_n = self.n // 2 # half the local region
         input_sqr = T.sqr(x) # square the input
         extra_channels = T.alloc(0., b, ch + 2*half_n, r, c) # make an empty tensor with zero pads along channel dimension
